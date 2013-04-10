@@ -10,6 +10,10 @@
 NPV::NPV() : irate(0) { }
 
 NPV::NPV( double capital, double interest_rate ) {
+    if (capital < 0 || interest_rate < 0) {
+        throw runtime_error( "Startkapital und Zinssatz koennen nicht negativ sein");
+    }
+    
     double t;
     t=interest_rate-floor(interest_rate);
     if (t>=0.5) {
