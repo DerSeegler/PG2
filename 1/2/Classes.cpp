@@ -5,13 +5,15 @@
  * Created on 10. April 2013, 10:26
  */
 
+#include <iostream>
+
 #include "Classes.h"
 
 NPV::NPV() : irate(0) { }
 
 NPV::NPV( double capital, double interest_rate ) {
-    if (capital < 0 || interest_rate < 0) {
-        throw runtime_error( "Startkapital und Zinssatz koennen nicht negativ sein");
+    if (capital > 0 || interest_rate < 0) {
+        throw runtime_error( "Investition muss negativ eingegeben werden und Zinssatz darf nicht negativ sein");
     }
     
     double t;
@@ -39,7 +41,7 @@ NPV::NPV( double capital, double interest_rate ) {
         capital = floor(capital);
     }
     
-    long int cap = static_cast<long int>(capital);
+    long int cap = (long int)(capital);
     
     if (inv.size() > 0) {
         inv.clear();
@@ -48,6 +50,8 @@ NPV::NPV( double capital, double interest_rate ) {
     else {
         inv.push_back(cap);
     }
+    
+    populateInv();
 }
 
 NPV::NPV( double irateMin, double irateMax, double capMin, double capMax) {
@@ -62,7 +66,7 @@ NPV::NPV( double irateMin, double irateMax, double capMin, double capMax) {
             irateMin *= 10000.0;
             irateMin = floor(irateMin);
         }
-        int min = static_cast<int>(irateMin);
+        int min = (int)(irateMin);
         
         t=irateMin-floor(irateMax);
         if (t>=0.5) {
@@ -73,10 +77,12 @@ NPV::NPV( double irateMin, double irateMax, double capMin, double capMax) {
             irateMax *= 10000.0;
             irateMax = floor(irateMax);
         }
-        int max = static_cast<int>(irateMax);
+        int max = (int)(irateMax);
         
         srand (time(0));
         irate = (rand() % max + min) / 10000.0;
+        
+        populateInvRand();
     }
     else {
         throw runtime_error( "Rahmenbedingungen zum erstellen von Zufallszahlen nicht korrekt");
@@ -93,7 +99,7 @@ NPV::NPV( double irateMin, double irateMax, double capMin, double capMax) {
             capMin *= 1000.0;
             capMin = floor(capMin);
         }
-        long int min = static_cast<long int>(capMin);
+        long int min = (long int)(capMin);
         
         t=capMax-floor(capMax);
         if (t>=0.5) {
@@ -104,7 +110,7 @@ NPV::NPV( double irateMin, double irateMax, double capMin, double capMax) {
             capMax *= 1000.0;
             capMax = floor(capMax);
         }
-        long int max = static_cast<long int>(capMax);
+        long int max = (long int)(capMax);
         
         srand (time(NULL));
         long int temp = rand() % min + max;
@@ -121,31 +127,61 @@ NPV::NPV( double irateMin, double irateMax, double capMin, double capMax) {
     }
 }
 
-double NPV::calc(int years) {
-    if( inv.size() > 1 ) {
-        long int temp = inv.at(0);
-        inv.clear();
-        inv.push_back(temp);
+double NPV::calc() const {
+    double result = inv.at(0) / 1000.0;
+    for ( int i = 1; i < inv.size(); i++ ) {
+        double value = inv.at(i) / 1000.0;
+        value *= pow((1 + irate), -i);   
+
+        result += value;
     }
     
-    for ( int i = 1; i <= years; i++ ) {
-        double value = inv.at(i - 1) / 1000.0;
-        value *= pow((1 + irate), -i);   
+    // runden
+    double t = 0.0;
+    t=result-floor(result);
+    if (t>=0.5) {
+        result *= 1000.0;
+        result = ceil(result);
+    }
+    else {
+        result *= 1000.0;
+        result = floor(result);
+    }
+    
+    return result / 1000.0;
+}
+
+void NPV::populateInv() {
+    char temp = ' ';
+    double zahl = -1;
+    std::cout << "Bitte geben Sie Ihre jaehrliche Investition ein: (q zum abbrechen)" << std::endl << ">";
+    while (std::cin >> temp && temp != 'q') {
+        std::cin.putback(temp);
+        std::cin >> zahl;
+        if (std::cin.fail()) {
+            throw runtime_error("Falsche Eingabe");
+        }
         
-        // runden
         double t;
-        t=value-floor(value);
+        t=zahl-floor(zahl);
         if (t>=0.5) {
-            value *= 1000.0;
-            value = ceil(value);
+            zahl *= 1000.0;
+            zahl = ceil(zahl);
         }
         else {
-            value *= 1000.0;
-            value = floor(value);
+            zahl *= 1000.0;
+            zahl = floor(zahl);
         }
-        long int temp = static_cast<long int>(value);
+        long int temp = (long int)(zahl);
+        
         inv.push_back(temp);
     }
-    
-    return inv.at(years) / 1000.0;
+}
+
+void NPV::populateInvRand() {
+    //srand(time(0));
+    int zahl = (rand() % 999 + 111);
+    for (int i = 0; i < 4; i++) {
+        inv.push_back(zahl);
+    }
 }

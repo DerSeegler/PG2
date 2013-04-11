@@ -20,21 +20,14 @@ int main( ) {
         
         if (answer == 'y') {
             NPV npv = NPV( 0.0, 0.05, 500.0, 10000.0 );
-            
-            int years = 0;
-        
-            cout << "Bitte geben Sie die Anzahl der Jahre ein:" << endl << ">";
-            if ( !(cin >> years) ) {
-                throw runtime_error( "Fehler bei der Eingabe");
-            }
 
-            cout << "Berechnetes Ergebnis: " << npv.calc( years ) << endl;
+            cout << "Berechnetes Ergebnis: " << npv.calc() << endl;
         }
         else {
             if (answer == 'n') {
                 double capital = -1.0;
                 double interest_rate = -1.0;
-                cout << "Bitte geben Sie das Startkapital ein:" << endl << ">";
+                    cout << "Bitte geben Sie Ihre Investition (negativ) ein:" << endl << ">";
                 if ( !(cin >> capital) ) {
                     throw runtime_error( "Fehler bei der Eingabe");
                 }
@@ -43,15 +36,8 @@ int main( ) {
                     throw runtime_error( "Fehler bei der Eingabe");
                 }
                 NPV npv = NPV( capital, interest_rate );
-                
-                int years = 0;
-        
-                cout << "Bitte geben Sie die Anzahl der Jahre ein:" << endl << ">";
-                if ( !(cin >> years) ) {
-                    throw runtime_error( "Fehler bei der Eingabe");
-                }
 
-                cout << "Berechnetes Ergebnis: " << npv.calc( years ) << endl;
+                cout << "Berechnetes Ergebnis: " << npv.calc( ) << endl;
             }
             else {
                 throw runtime_error( "Fehler bei der Eingabe");

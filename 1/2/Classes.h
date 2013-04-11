@@ -21,7 +21,9 @@ public:
     NPV();
     NPV( double, double);
     NPV( double, double, double, double);
-    double calc( int );
+    double calc() const;
+    void populateInv();
+    void populateInvRand();
 private:
     std::vector<long int> inv;
     double irate;
