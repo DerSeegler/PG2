@@ -13,8 +13,8 @@ using namespace std;
 void drawLine( Frame f, int start_Xcoord, int start_Ycoord, int end_Xcoord, int end_Ycoord ) {
     bool switchedSign = false;
     bool mirrored = false;
-    int dY = 0;
-    int dX = 0;
+    int dY = -1;
+    int dX = -1;
     f.put_point( start_Xcoord, start_Ycoord );
     
     if( end_Xcoord < start_Xcoord ) { 
@@ -39,31 +39,34 @@ void drawLine( Frame f, int start_Xcoord, int start_Ycoord, int end_Xcoord, int 
         end_Ycoord = temp;
     }
 
-    dY = start_Ycoord - end_Ycoord;
-    dX = start_Xcoord - end_Xcoord;
-    
-    if( 2* dY < dX ) {
-        start_Xcoord++;
-    }
-    else {
-        start_Xcoord++;
-        start_Ycoord++;
-    }
-    
-    if( switchedSign ) {
-        if( mirrored ) {
-            f.put_point( (0 - start_Ycoord), (0 - start_Xcoord) );
+    while(dY != 0 && dX != 0)
+    {
+        dY = start_Ycoord - end_Ycoord;
+        dX = start_Xcoord - end_Xcoord;
+
+        if( 2* dY < dX ) {
+            start_Xcoord++;
         }
         else {
-            f.put_point( (0 - start_Xcoord), (0 - start_Ycoord) );
+            start_Xcoord++;
+            start_Ycoord++;
         }
-    }
-    else {
-        if( mirrored ) {
-            f.put_point( start_Ycoord, start_Xcoord );
+
+        if( switchedSign ) {
+            if( mirrored ) {
+                f.put_point( (0 - start_Ycoord), (0 - start_Xcoord) );
+            }
+            else {
+                f.put_point( (0 - start_Xcoord), (0 - start_Ycoord) );
+            }
         }
         else {
-            f.put_point( start_Xcoord, start_Ycoord );
+            if( mirrored ) {
+                f.put_point( start_Ycoord, start_Xcoord );
+            }
+            else {
+                f.put_point( start_Xcoord, start_Ycoord );
+            }
         }
     }
 }
@@ -72,4 +75,3 @@ int main( ) {
     
     return 0;
 }
-
