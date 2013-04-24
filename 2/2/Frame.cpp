@@ -10,6 +10,11 @@
 #include "Frame.h"
 
 Frame::Frame() {
+    for( int i = 0; i < yMax; i++ ) {
+       for( int j = 0; j < xMax; j++ ) {
+           frame[j][i] = ' ';
+       } 
+    }
 }
 
 void Frame::put_point( int x, int y ) {
@@ -35,7 +40,7 @@ void Frame::show( ) const {
 }
 
 bool Frame::on_frame( int x, int y ) const {
-    if( x < xMax && y < yMax ) {
+    if( x < xMax && x > -1 && y < yMax && y > -1 ) {
         return true;
     }
     
