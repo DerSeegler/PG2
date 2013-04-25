@@ -18,7 +18,9 @@ Frame::Frame() {
 }
 
 void Frame::put_point( int x, int y ) {
-    frame[x][y] = '*';
+    if( on_frame(x, y) ) {
+        frame[x][y] = '*';
+    }
 }
 
 void Frame::reset( ) {
