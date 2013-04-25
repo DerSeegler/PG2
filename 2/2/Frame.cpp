@@ -46,3 +46,8 @@ bool Frame::on_frame( int x, int y ) const {
     
     return false;
 }
+
+std::ostream& operator<<(std::ostream& os, const Frame* f) {
+    f->show();
+    return os;
+};

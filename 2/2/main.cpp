@@ -81,6 +81,6 @@ void drawLine( Frame &f, int start_Xcoord, int start_Ycoord, int end_Xcoord, int
 int main( ) {
     Frame f = Frame();
     drawLine(f,1, 10, 10, 9);
-    f.show();
+    cout << &f;
     return 0;
 }

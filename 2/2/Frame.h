@@ -23,5 +23,6 @@ private:
     char frame[xMax][yMax];
 };
 
-#endif	/* FRAME_H */
+std::ostream& operator<<(std::ostream& os, const Frame* f);
 
+#endif	/* FRAME_H */
