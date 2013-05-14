@@ -46,6 +46,17 @@ private:
     int start_Xcoord, start_Ycoord, end_Xcoord, end_Ycoord; 
 };
 
+class Triangle : public Shape {
+public:
+    Triangle(); // Standardkonstruktor 
+    Triangle( int, int, int, int, int, int );
+    void set( int, int, int, int, int, int ); 
+    void draw( Frame* ); // rein virtuelles shape::draw() ueberschreiben
+    void move( int h, int v ); // rein virtuelles shape::move() ueberschreiben 
+private:
+    int xa, ya, xb, yb, xc, yc;
+};
+
 std::ostream& operator<<(std::ostream& os, const Frame* f);
 
 #endif	/* FRAME_H */

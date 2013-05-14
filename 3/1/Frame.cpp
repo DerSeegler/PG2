@@ -122,8 +122,30 @@ Line::draw( Frame* f ) {
     }
     
     if (!(f.on_frame(start_Xcoord, start_Ycoord) && f.on_frame(end_Xcoord, end_Ycoord))) {
-        std::cout << "Einige Punkte liegen ausserhalb des sichtbaren Bereiches und koennen nicht angezeigt werden." << endl;
+        std::cout << "Einige Punkte liegen ausserhalb des sichtbaren Bereiches und koennen nicht angezeigt werden." << std::endl;
     }
+}
+
+Triangle::Triangle() : xa(0), ya(0), xb(0), yb(0), xc(0), yc(0) { }
+
+Triangle::Triangle( int u, int v, int w, int x, int y, int z ) : xa(u), ya(v), xb(w), yb(x), xc(y), yc(z) { }
+
+Triangle::Triangle( int h, int v ) { 
+    xa += h;
+    xb += h;
+    xc += h;
+    ya += v;
+    yb += v;
+    yc += v;
+}
+
+Triangle::Triangle( Frame* f ) {
+    Line ab = Line( xa, ya, xb, yb );
+    Line bc = Line( xb, yb, xc, yc );
+    Line ca = Line( xc, yc, xa, ya );
+    ab.draw( f );
+    bc.draw( f );
+    ca.draw( f );
 }
 
 std::ostream& operator<<(std::ostream& os, const Frame* f) {
