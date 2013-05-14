@@ -53,6 +53,7 @@ public:
     void set( int, int, int, int, int, int ); 
     void draw( Frame* ); // rein virtuelles shape::draw() ueberschreiben
     void move( int h, int v ); // rein virtuelles shape::move() ueberschreiben 
+    bool check();
 private:
     int xa, ya, xb, yb, xc, yc;
 };

@@ -139,13 +139,63 @@ Triangle::Triangle( int h, int v ) {
     yc += v;
 }
 
+Triangle::check() {
+    double ab_steigung = 0.0;
+    double bc_steigung = 0.0;
+    
+    if( xb > xa ) {
+        if( yb > ya ) {
+            ab_steigung = ( yb - ya ) / ( xb - xa );
+        }
+        else {
+            ab_steigung = ( ya - yb ) / ( xb - xa );
+        }
+    }
+    else {
+        if( yb > ya ) {
+            ab_steigung = ( yb - ya ) / ( xa - xb );
+        }
+        else {
+            ab_steigung = ( ya - yb ) / ( xa - xb );
+        }
+    }
+    
+    if( xc > xb ) {
+        if( yc > yb ) {
+            bc_steigung = ( yc - yb ) / ( xc - xb );
+        }
+        else {
+            bc_steigung = ( yb - yc ) / ( xc - xb );
+        }
+    }
+    else {
+        if( yc > yb ) {
+            bc_steigung = ( yc - yb ) / ( xb - xc );
+        }
+        else {
+            bc_steigung = ( yb - yc ) / ( xb - xc );
+        }
+    }
+    
+    if( ab_steigung == bc_steigung ) {
+        return false;
+    }
+    
+    return true;
+}
+
 Triangle::Triangle( Frame* f ) {
-    Line ab = Line( xa, ya, xb, yb );
-    Line bc = Line( xb, yb, xc, yc );
-    Line ca = Line( xc, yc, xa, ya );
-    ab.draw( f );
-    bc.draw( f );
-    ca.draw( f );
+    if( check() ) {
+        Line ab = Line( xa, ya, xb, yb );
+        Line bc = Line( xb, yb, xc, yc );
+        Line ca = Line( xc, yc, xa, ya );
+        ab.draw( f );
+        bc.draw( f );
+        ca.draw( f );
+    }
+    else {
+        std::cout << "Die eingegebenen Koordinaten ergeben kein gültiges Dreieck!";
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, const Frame* f) {
