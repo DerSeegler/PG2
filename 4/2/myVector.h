@@ -8,23 +8,23 @@
 #ifndef MYVECTOR_H
 #define	MYVECTOR_H
 
-class myVector {
+template<class T> class myVector {
     int sz; // size
     int space; // size + weiterer Platz 
-    double* elem; // Zeiger auf die Elemente
+    T* elem; // Zeiger auf die Elemente
 public:
     myVector(); // Standardkonstruktor 
     explicit myVector(int); // ein Konstruktor
     myVector(const myVector&); // Copy-Konstruktor
     myVector& operator=(const myVector&); // Zuweisungsoperator 
     ~myVector(); // Destruktor
-    double& operator[](int); // Indexoperator 
-    int size() const; // Anzahl Elemente 
-    double get(int) const; // read
+    T& operator[](int); // Indexoperator 
+//    int size() const; // Anzahl Elemente 
+    //double get(int) const; // read
     void set(int, double); // write
     void reserve(int);
-    void push_back(double);
-    void resize(int);
+    void push_back(const T&);
+    void resize(int, T);
 
     int capacity() const {
         return space;
