@@ -136,20 +136,20 @@ template<class T> myVec<T>::myVec(int low, int high) : myVector<T>(high - low + 
 }
 
 template<class T> T& myVec<T>::operator[](int i) {
-        if (i < lb || hi() <= i) {
-            throw std::runtime_error("myVector::operator[](), bad index");
-        }
-        
-        return myVector<T>::operator[](i - lb);
+    if (i < lb || hi() <= i) {
+        throw std::runtime_error("myVector::operator[](), bad index");
+    }
+
+    return myVector<T>::operator[](i - lb);
 }
 
 template<class T> T& myVec<T>::operator[](int i) const {
-        if (i < lb || hi() <= i) {
-            throw std::runtime_error("myVector::operator[](), bad index");
-        }
-        
-        T d = myVector<T>::operator[](i - lb);
-        return d;
+    if (i < lb || hi() <= i) {
+        throw std::runtime_error("myVector::operator[](), bad index");
+    }
+
+    T d = myVector<T>::operator[](i - lb);
+    return d;
 }
 
 template<class T> int myVec<T>::lo() const {
