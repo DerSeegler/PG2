@@ -26,6 +26,11 @@ double& myVector::operator[](int index) {
     return elem[index];
 }
 
+double& myVector::operator[](int index) const {
+    if (index < 0 || sz <= index) throw std::runtime_error("myVector::operator[](), bad index");
+    return elem[index];
+}
+
 int myVector::size() const {
     return sz;
 }

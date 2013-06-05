@@ -19,6 +19,7 @@ public:
     int size() const;
     double* eleme() const;
     double& operator[](int);
+    double& operator[](int) const;
 };
 
 class myVec : public myVector {
