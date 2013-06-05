@@ -20,15 +20,25 @@ public:
     ~myVector(); // Destruktor
     T& operator[](int); // Indexoperator 
     T& operator[](int) const;
-    double get(int) const; // read
+    T get(int) const; // read
     void set(int, T); // write
     void reserve(int);
     void push_back(const T&);
     void resize(int, T);
-    
     int size() const;// Anzahl Elemente 
-    
     int capacity() const;
+};
+
+template<class T> class myVec : public myVector<T> {
+public:
+    myVec();
+    myVec(int, int);
+    T& operator[](int i);
+    T& operator[](int i) const;
+    int lo() const;
+    int hi() const;
+private:
+    int lb;
 };
 
 #endif	/* MYVECTOR_H */
