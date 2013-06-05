@@ -14,21 +14,21 @@ template<class T> class myVector {
     T* elem; // Zeiger auf die Elemente
 public:
     myVector(); // Standardkonstruktor 
-    explicit myVector(int); // ein Konstruktor
+    explicit myVector(int, T); // ein Konstruktor
     myVector(const myVector&); // Copy-Konstruktor
-    myVector& operator=(const myVector&); // Zuweisungsoperator 
+    myVector<T>& operator=(const myVector&); // Zuweisungsoperator 
     ~myVector(); // Destruktor
     T& operator[](int); // Indexoperator 
-//    int size() const; // Anzahl Elemente 
-    //double get(int) const; // read
-    void set(int, double); // write
+    T& operator[](int) const;
+    double get(int) const; // read
+    void set(int, T); // write
     void reserve(int);
     void push_back(const T&);
     void resize(int, T);
-
-    int capacity() const {
-        return space;
-    }
+    
+    int size() const;// Anzahl Elemente 
+    
+    int capacity() const;
 };
 
 #endif	/* MYVECTOR_H */
