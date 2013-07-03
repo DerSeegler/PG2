@@ -29,6 +29,7 @@ class Bintree {
         Bintree();
         Bintree(node*);
         Bintree(T);
+        typedef node* nodep;
         node* getRoot();
         int countTreePart(node*);
         int getTreeHeight();
@@ -36,7 +37,9 @@ class Bintree {
         void insert(T);
         void in_order(node*);
         void level_order(node*);
-        void insertAsRoot(node*);
+        void insertAsRoot(T);
+        void rotateR(nodep&);
+        void rotateL(nodep&);
 };
 
 
@@ -120,7 +123,6 @@ Bintree<T>::node* Bintree<T>::find(T v) {
 template<class T>
 void Bintree<T>::insert(T v) {
     node* r = root;
-    node* p = 0;
     bool run = true;
     
     while(run) {
@@ -187,8 +189,113 @@ void Bintree<T>::level_order(node* n) {
 }
 
 template<class T>
-void Bintree<T>::insertAsRoot(node*) {
+void Bintree<T>::insertAsRoot(T v) {
+    node* r = root;
+    bool run = true;
+    int counter = 0;
     
+    while(run) {
+        if(v == r->val) {
+            r->count++;
+            return;
+        }
+        
+        if(v > r->val) {
+            if(r->right == 0) {
+                run = false;
+            }
+            else {
+                r = r->right;
+            }
+        }
+
+        if(v < r->val) {
+            if(r->left == 0) {
+                run = false;
+            }
+            else {
+                r = r->left;
+            }
+        }
+        
+        ++counter;
+    }
+    
+    node* newNode = new node(v, 0, 0, r);
+    
+    if(newNode->val > r->val) {
+        r->right = newNode;
+    }
+
+    if(newNode->val < r->val) {
+        r->left = newNode;
+    }
+    
+    level_order(root);
+    std::cout << std::endl;
+    
+        if(newNode->val < r->val) {
+            rotateR(r);
+        }
+        else {
+            rotateL(r);
+        }
+    
+    root = r;
+}
+
+template<class T>
+void Bintree<T>::rotateR( nodep& w ) {
+    if( w==0 || w->left==0 ) {
+       return;
+    }
+    
+    nodep x = w->left; 
+    x->pre = w->pre;
+    w->pre = x; 
+    w->left = x->right;
+    x->right = w; 
+    if( w->left ) {
+        w->left->pre = w; 
+    }
+    
+    w = x;
+    
+    if(w->pre != 0) {
+        if(w->val < w->pre->val) {
+            rotateR( w->pre );
+        }
+        else {
+            rotateL( w->pre );
+        }
+    }
+}
+
+template<class T>
+void Bintree<T>::rotateL( nodep& w ) {
+    if( w==0 || w->right==0 ) {
+       return;
+    }
+    
+    nodep x = w->right; 
+    x->pre = w->pre;
+    w->pre = x; 
+    w->right = x->left;
+    x->left = w; 
+    if( w->right ) {
+        w->right->pre = w; 
+    }
+    
+    w = x;
+    
+    if(w->pre != 0) {
+        if(w->val < w->pre->val) {
+            rotateR( w->pre );
+        }
+        else {
+            rotateL( w->pre );
+        }
+    }
 }
 
 #endif	/* BINTREE_H */

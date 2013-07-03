@@ -30,6 +30,18 @@ int main( ) {
     bt.level_order(bt.getRoot());
     cout << endl;
     cout << bt.getTreeHeight();
+    cout << endl;
+    
+    bt.insertAsRoot(1);
+    bt.insert(0);
+    
+    bt.in_order(bt.getRoot());
+    cout << endl;
+    bt.level_order(bt.getRoot());
+    cout << endl;
+    cout << bt.getTreeHeight();
+    cout << endl;
+    
     return 0;
 }
 
